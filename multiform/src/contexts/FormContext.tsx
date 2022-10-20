@@ -2,10 +2,12 @@
 
 import { createContext, ReactNode, useContext, useReducer } from "react";
 
+// Types
+
 type State = {
     currentStep: number;
     name: string;
-    level: number;
+    level: 0 | 1;
     email: string;
     github: string;
 }
@@ -24,6 +26,7 @@ type FormProviderProps = {
     children: ReactNode
 };
 
+// Variaveis e Objetos
 const initialData: State =  {
     currentStep: 0,
     name: '',
@@ -36,7 +39,7 @@ const initialData: State =  {
 const FormContext = createContext<ContextType | undefined>(undefined);
 
 // Reducer 
-enum FormActions {
+export enum FormActions {
     setCurrentStep,
     setName,
     setLevel,
@@ -62,7 +65,7 @@ const formReducer = (state: State, action: Action) => {
 }
 
 // Provider
-const FormProvider = ({children}: FormProviderProps) => {
+export const FormProvider = ({children}: FormProviderProps) => {
     const [state, dispatch] = useReducer(formReducer, initialData);
     const value = { state, dispatch };
 
@@ -75,7 +78,7 @@ const FormProvider = ({children}: FormProviderProps) => {
 
 // Context Hook
 
-const useForm = () => {
+export const useForm = () => {
     const context = useContext(FormContext);
     if(context === undefined) {
         throw new Error('useForm prcisa ser usado dentro do FormProvider');
